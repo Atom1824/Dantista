@@ -3,11 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function esHorarioValido(fechaStr, horaStr) {
         const fecha = new Date(fechaStr + "T" + horaStr + ":00");
-        const diaSemana = fecha.getDay(); // 0=Domingo, 1=Lunes ... 6=Sábado
+        const diaSemana = fecha.getDay();
         const hora = fecha.getHours();
-
-        if (diaSemana === 0) return false; // Domingo cerrado
-
+        if (diaSemana === 0) return false;
         if (diaSemana >= 1 && diaSemana <= 5) {
             if (hora < 9 || hora >= 18) return false;
         } else if (diaSemana === 6) {
@@ -43,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const fecha = document.getElementById("fecha").value;
             const hora = document.getElementById("hora").value;
 
-            // Validaciones
             if (!nombre || !email || !telefono || !servicio || !fecha || !hora) {
                 Swal.fire({
                     title: "Faltan campos por llenar",
@@ -98,10 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Aquí haces el fetch SOLO si todo está bien
-            const urlGoogleAppsScript = "https://script.google.com/macros/s/AKfycbz4Rqxqdrg52jPUKrNAFxXkOCl_Kq7qrAHnU-zmVHN1HdlDQRJvdjkbskzL5SBk_4UByQ/exec";
-
-            const datosEnviar = {
+            const datos = {
                 nombre,
                 email,
                 telefono,
@@ -110,13 +104,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 hora
             };
 
+            // Reemplaza este con TU URL de Google Apps Script desplegado públicamente
+const urlGoogleAppsScript = "/api/enviar";
+
             fetch(urlGoogleAppsScript, {
                 method: "POST",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(datosEnviar)
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datos)
             })
                 .then(response => response.json())
                 .then(data => {
@@ -131,13 +125,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
                         Swal.fire({
                             title: "Error al enviar",
-                            text: "Ocurrió un error al guardar tu información. Intenta de nuevo.",
+                            text: "Ocurrió un error al guardar tu información.",
                             icon: "error",
                             confirmButtonText: "Ok"
                         });
                     }
                 })
                 .catch(error => {
+                    console.error("Error en fetch:", error);
                     Swal.fire({
                         title: "Error de conexión",
                         text: "No se pudo conectar con el servidor. Intenta más tarde.",
@@ -145,8 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         confirmButtonText: "Ok"
                     });
                 });
-
         });
     }
 });
-
