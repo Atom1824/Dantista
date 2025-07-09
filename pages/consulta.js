@@ -105,41 +105,40 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             // Reemplaza este con TU URL de Google Apps Script desplegado públicamente
-const urlGoogleAppsScript = "/api/enviar";
+const urlGoogleAppsScript = "https://script.google.com/macros/s/AKfycbzBXsYoTmRJzsLeoawoNXFPM1VDfp-P14aXTzfJr56LoDMKOd8I6nwtYnqD3gtr6YIZRg";
 
-            fetch(urlGoogleAppsScript, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(datos)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.result === "success") {
-                        Swal.fire({
-                            title: "¡Formulario enviado!",
-                            text: "Gracias por tu consulta. Nos pondremos en contacto contigo pronto.",
-                            icon: "success",
-                            confirmButtonText: "Aceptar"
-                        });
-                        formulario.reset();
-                    } else {
-                        Swal.fire({
-                            title: "Error al enviar",
-                            text: "Ocurrió un error al guardar tu información.",
-                            icon: "error",
-                            confirmButtonText: "Ok"
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error en fetch:", error);
-                    Swal.fire({
-                        title: "Error de conexión",
-                        text: "No se pudo conectar con el servidor. Intenta más tarde.",
-                        icon: "error",
-                        confirmButtonText: "Ok"
-                    });
-                });
-        });
-    }
+
+           fetch(urlGoogleAppsScript, {
+  method: "POST",
+  body: JSON.stringify(datosEnviar),
+  headers: {
+    "Content-Type": "application/json"
+  }
+})
+.then(response => response.json())
+.then(data => {
+  if (data.result === "success") {
+    Swal.fire({
+      title: "¡Formulario enviado!",
+      text: "Gracias por tu consulta. Nos pondremos en contacto contigo pronto.",
+      icon: "success",
+      confirmButtonText: "Aceptar"
+    });
+    formulario.reset();
+  } else {
+    Swal.fire({
+      title: "Error al enviar",
+      text: "Ocurrió un error al guardar tu información. Intenta de nuevo.",
+      icon: "error",
+      confirmButtonText: "Ok"
+    });
+  }
+})
+.catch(error => {
+  Swal.fire({
+    title: "Error de conexión",
+    text: "No se pudo conectar con el servidor. Intenta más tarde.",
+    icon: "error",
+    confirmButtonText: "Ok"
+  });
 });
