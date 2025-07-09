@@ -1,0 +1,16 @@
+{
+  "name": "clinica-dental-del-valle",
+  "version": "1.0.0",
+  "description": "Website for Clinica Dental Del Valle",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Build completed - static files ready'",
+    "start": "echo 'Starting development server' && python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": ["dental", "clinic", "website"],
+  "author": "Clinica Dental Del Valle",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
